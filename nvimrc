@@ -168,7 +168,7 @@ let g:tagbar_autofocus = 0 " автофокус на Tagbar при открыт�
 "=====================================================
 " NerdTree settings
 "=====================================================
-"игноррируемые файлы с расширениями
+" ignored files 
 let NERDTreeIgnore=['\~$', '\.pyc$', '\.pyo$', '\.class$', 'pip-log\.txt$','\.o$']  
 autocmd BufEnter *.py :call tagbar#autoopen(0)
 autocmd BufWinLeave *.py :TagbarClose
@@ -182,12 +182,11 @@ let g:NERDSpaceDelims = 1
 "=====================================================
 " YouCompleteMe settings
 "=====================================================
-"игноррируемые файлы с расширениями
-"let g:ycm_server_keep_logfiles=1
-"let g:ycm_path_to_python_interpreter = '/usr/bin/python'
+" let g:ycm_server_keep_logfiles=1
+" let g:ycm_path_to_python_interpreter = '/usr/bin/python'
 let g:ycm_path_to_python_interpreter = '/home/makc/.pyenv/shims/python'
 let g:ycm_collect_identifiers_from_tags_files = 1 " Let YCM read tags from Ctags file
-"let g:ycm_use_ultisnips_completer = 1 " Default 1, just ensure
+" let g:ycm_use_ultisnips_completer = 1 " Default 1, just ensure
 let g:ycm_seed_identifiers_with_syntax = 1 " Completion for programming language's keyword
 let g:ycm_complete_in_comments = 1 " Completion in comments
 let g:ycm_complete_in_strings = 1 " Completion in string
@@ -214,7 +213,7 @@ let g:syntastic_rust_checkers = ['rustc']
 "=====================================================
 " Pythonmode settings
 "=====================================================
-"let g:pymode = 1
+" let g:pymode = 1
 let g:pymode_python = 'python3'
 
 autocmd BufWritePre *.py :%s/\s\+$//e
@@ -226,39 +225,39 @@ let python_highlight_exceptions=0
 let python_highlight_builtins=0
 let python_slow_sync=1
 
-" отключаем автокомплит по коду
+" disable pymode autocomplete
 let g:pymode_rope = 1
 let g:pymode_rope_completion = 0
 let g:pymode_rope_complete_on_dot = 0
 
-" документация
+" docs
 let g:pymode_doc = 0
 let g:pymode_doc_key = 'K'
 
-" проверка кода
+" disable pymode linters
 let g:pymode_lint = 0
 let g:pymode_lint_checker = 'pyflakes,pep8'
 "let g:pymode_lint_ignore='E501,W601,C0110'
 
-" провека кода после сохранения
+" check code after save
 let g:pymode_lint_write = 1
 
-" поддержка virtualenv
+" virtualenv support
 let g:pymode_virtualenv = 1
 
-" установка breakpoints
+" breakpoints
 let g:pymode_breakpoint = 1
 let g:pymode_breakpoint_key = '<leader>b'
 let g:pymode_breakpoint_cmd = 'import ipdb; ipdb.set_trace()  # XXX: BREAKPOINT'
 
 "
-" подстветка синтаксиса
+" syntax highlight
 let g:pymode_syntax = 1
 let g:pymode_syntax_all = 1
 let g:pymode_syntax_indent_errors = g:pymode_syntax_all
 let g:pymode_syntax_space_errors = g:pymode_syntax_all
 
-" отключить autofold по коду
+" disable autofold
 let g:pymode_folding = 0
 
 "=====================================================
