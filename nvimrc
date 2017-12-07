@@ -2,9 +2,9 @@ runtime! macros/matchit.vim
 set nocompatible              " be iMproved, required
 filetype on                  " required
 
-" Python 2 host
-let g:python_host_prog='/usr/bin/python2'
-let g:python3_host_prog='/usr/bin/python3'
+" Python hosts
+let g:python_host_prog='/home/makc/.pyenv/versions/neovim2/bin/python'
+let g:python3_host_prog='/home/makc/.pyenv/versions/neovim/bin/python'
 
 " Functions
 let g:myLang = 0
@@ -54,7 +54,6 @@ Plug 'rust-lang/rust.vim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'scrooloose/NERDCommenter'
 Plug 'scrooloose/nerdtree'
-Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
@@ -62,6 +61,11 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-scripts/dbext.vim'
 Plug 'aklt/plantuml-syntax'
 Plug 'scrooloose/vim-slumlord'
+Plug 'cespare/vim-toml'
+Plug 'w0rp/ale'
+Plug 'mileszs/ack.vim'
+" Plug 'scrooloose/syntastic'
+" Plug 'Xuyuanp/nerdtree-git-plugin'
 " Plug 'altercation/vim-colors-solarized'
 " Plug 'vimlab/mdown.vim', { 'do': 'npm install' }
 
@@ -117,8 +121,8 @@ set guifont=DejaVu\ Sans\ Mono\ For\ Powerline\ Nerd\ Font\ 10
 "set directory=~/.nvim/.swapfiles/
 
 " Cursor shape
-" set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
-set guicursor=
+set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
+" set guicursor=
 au VimLeave * set guicursor=a:block-blinkon0
 
 
@@ -146,6 +150,12 @@ let g:neosolarized_underline = 1
 let g:neosolarized_italic = 0
 
 "=====================================================
+" Devicons settings 
+"=====================================================
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+let g:DevIconsEnableFoldersOpenClose = 1
+
+"=====================================================
 " Airline settings
 "=====================================================
 set laststatus=2
@@ -157,7 +167,7 @@ let g:airline#extensions#tabline#formatter = 'unique_tail'
 "=====================================================
 " Tagbar settings
 "=====================================================
-let g:tagbar_autofocus = 0 " автофокус на Tagbar при открытии
+let g:tagbar_autofocus = 0 " disable Tagbar autofocus
 
 "=====================================================
 " Gitgutter settings
@@ -184,31 +194,55 @@ let g:NERDSpaceDelims = 1
 "=====================================================
 " let g:ycm_server_keep_logfiles=1
 " let g:ycm_path_to_python_interpreter = '/usr/bin/python'
-let g:ycm_path_to_python_interpreter = '/home/makc/.pyenv/shims/python'
+let g:ycm_python_binary_path = '/home/makc/.pyenv/versions/3.6.2/bin/python3.6'
+let g:ycm_server_python_interpreter = '/home/makc/.pyenv/versions/3.6.2/bin/python3.6'
+" let g:ycm_path_to_python_interpreter = '/home/makc/.pyenv/shims/python' 
+let g:ycm_path_to_python_interpreter = '/home/makc/.pyenv/versions/3.6.2/bin/python3.6'
 let g:ycm_collect_identifiers_from_tags_files = 1 " Let YCM read tags from Ctags file
 " let g:ycm_use_ultisnips_completer = 1 " Default 1, just ensure
 let g:ycm_seed_identifiers_with_syntax = 1 " Completion for programming language's keyword
 let g:ycm_complete_in_comments = 1 " Completion in comments
 let g:ycm_complete_in_strings = 1 " Completion in string
-let g:ycm_rust_src_path = '/home/makc/.rustup/src/src/'
+let g:ycm_rust_src_path = '/home/makc/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/'
+let g:ycm_goto_buffer_command = 'new-or-existing-tab' 
+
+"=====================================================
+" Ale settings
+"=====================================================
+let g:ale_open_list = 1
+" let g:ale_keep_list_window_open = 1
+let g:ale_python_autopep8_executable = '/home/makc/.pyenv/versions/neovim/bin/autopep8'
+let g:ale_python_flake8_executable = '/home/makc/.pyenv/shims/python'
+let g:ale_python_flake8_options = '-m flake8'
+let g:ale_python_mypy_executable = '/home/makc/.pyenv/versions/neovim/bin/python'
+let g:ale_python_mypy_options = '-m mypy --ignore-missing-imports'
+let g:ale_python_yapf_executable = '/home/makc/.pyenv/versions/neovim/bin/python'
+let g:ale_python_yapf_options = '-m yapf'
+let g:ale_python_isort_executable = '/home/makc/.pyenv/versions/neovim/bin/python'
+let g:ale_python_isort_options = '-m isort'
+let g:ale_python_pylint_executable = '/home/makc/.pyenv/versions/neovim/bin/pylint'
+let g:ale_linters = {'python': ['flake8']}
+let g:ale_fixers = {'python': ['isort']}
+let g:ale_echo_msg_format = '[%linter%] [%severity%] %s'
+let g:ale_lint_on_text_changed = 'never'
 
 "=====================================================
 " Syntastic settings
 "=====================================================
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-"let g:syntastic_python_python_exec = 'python3'
-let g:syntastic_python_checkers = ['flake8', 'pyflakes']
-let g:syntastic_python_pylint_post_args='--disable=E1120,E1130,E1103,W1401'
-"let g:syntastic_ignore_files = ['\.py$']
-let g:syntastic_rst_checkers = ['sphinx']
-let g:syntastic_rust_checkers = ['rustc']
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0
+" "let g:syntastic_python_python_exec = 'python3'
+" let g:syntastic_python_checkers = ['flake8', 'pyflakes']
+" let g:syntastic_python_pylint_post_args='--disable=E1120,E1130,E1103,W1401'
+" "let g:syntastic_ignore_files = ['\.py$']
+" let g:syntastic_rst_checkers = ['sphinx']
+" let g:syntastic_rust_checkers = ['cargo']
 
 "=====================================================
 " Pythonmode settings
@@ -261,6 +295,24 @@ let g:pymode_syntax_space_errors = g:pymode_syntax_all
 let g:pymode_folding = 0
 
 "=====================================================
+" User defined functions
+"=====================================================
+command! CloseHiddenBuffers call s:CloseHiddenBuffers()
+function! s:CloseHiddenBuffers()
+  let open_buffers = []
+
+  for i in range(tabpagenr('$'))
+    call extend(open_buffers, tabpagebuflist(i + 1))
+  endfor
+
+  for num in range(1, bufnr("$") + 1)
+    if buflisted(num) && index(open_buffers, num) == -1
+      exec "bdelete ".num
+    endif
+  endfor
+endfunction
+
+"=====================================================
 " User defined shortcut
 "=====================================================
 map <F3> :NERDTreeTabsToggle<CR>
@@ -295,14 +347,23 @@ inoremap <A-C-Down> <Esc>:wincmd j<CR>
 "inoremap <S-Left> <Esc>:wincmd h<CR>
 "inoremap <S-Up> <Esc>:wincmd k<CR>
 "inoremap <S-Down> <Esc>:wincmd j<CR>
+"
+nnoremap <A-h> :tabp<CR>
+nnoremap <A-l> :tabn<CR>
+inoremap <A-h> <Esc>:tabp<CR>
+inoremap <A-l> <Esc>:tabn<CR>
+nnoremap <A-k> :bp<CR>
+nnoremap <A-j> :bn<CR>
+inoremap <A-k> <Esc>:bp<CR>
+inoremap <A-j> <Esc>:bn<CR>
 
-nnoremap <A-l> :wincmd l<CR>
-nnoremap <A-h> :wincmd h<CR>
-nnoremap <A-k> :wincmd k<CR>
-nnoremap <A-j> :wincmd j<CR>
-inoremap <A-l> <Esc>:wincmd l<CR>
-inoremap <A-h> <Esc>:wincmd h<CR>
-inoremap <A-k> <Esc>:wincmd k<CR>
-inoremap <A-j> <Esc>:wincmd j<CR>
+nnoremap <A-C-l> :wincmd l<CR>
+nnoremap <A-C-h> :wincmd h<CR>
+nnoremap <A-C-k> :wincmd k<CR>
+nnoremap <A-C-j> :wincmd j<CR>
+inoremap <A-C-l> <Esc>:wincmd l<CR>
+inoremap <A-C-h> <Esc>:wincmd h<CR>
+inoremap <A-C-k> <Esc>:wincmd k<CR>
+inoremap <A-C-j> <Esc>:wincmd j<CR>
 "set langmap=!\\"№\\;%?*ёйцукенгшщзхъфывапролджэячсмитьбюЁЙЦУКЕHГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ;!@#$%&*`qwertyuiop[]asdfghjkl\\;'zxcvbnm\\,.~QWERTYUIOP{}ASDFGHJKL:\\"ZXCVBNM<>
 "inoremap <C-c> <Esc>
