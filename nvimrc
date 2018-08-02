@@ -8,7 +8,7 @@ let g:python3_host_prog='/home/makc/.pyenv/versions/neovim/bin/python'
 
 " Functions
 let g:myLang = 0
-let g:myLangList = ['nospell', 'en_us,ru_ru']
+let g:myLangList = ['nospell', 'en_us,ru_yo']
 function! MySpellLang()
   "loop through languages
   if g:myLang == 0 | setlocal nospell | endif
@@ -35,6 +35,8 @@ endfunction
 " Plugins
 Plug 'Valloric/YouCompleteMe'
 Plug 'airblade/vim-gitgutter'
+Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-surround'
 Plug 'bling/vim-bufferline'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'elubow/cql-vim'
@@ -48,7 +50,6 @@ Plug 'mattn/gist-vim'
 Plug 'mattn/webapi-vim'
 Plug 'mitsuhiko/vim-jinja'
 Plug 'mitsuhiko/vim-python-combined'
-Plug 'neovim/node-host', { 'do': 'npm install' }
 Plug 'pearofducks/ansible-vim'
 Plug 'rust-lang/rust.vim'
 Plug 'ryanoasis/vim-devicons'
@@ -60,10 +61,13 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-scripts/dbext.vim'
 Plug 'aklt/plantuml-syntax'
-Plug 'scrooloose/vim-slumlord'
 Plug 'cespare/vim-toml'
 Plug 'w0rp/ale'
 Plug 'mileszs/ack.vim'
+Plug 'tyru/open-browser.vim'
+Plug 'weirongxu/plantuml-previewer.vim'
+" Plug 'scrooloose/vim-slumlord'
+" Plug 'neovim/node-host', { 'do': 'npm install' }
 " Plug 'scrooloose/syntastic'
 " Plug 'Xuyuanp/nerdtree-git-plugin'
 " Plug 'altercation/vim-colors-solarized'
@@ -159,10 +163,20 @@ let g:DevIconsEnableFoldersOpenClose = 1
 " Airline settings
 "=====================================================
 set laststatus=2
-let g:airline_theme='base16'
+let g:airline_theme='solarized'
+let g:airline_solarized_bg='dark'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#formatter = 'unique_tail'
+let g:airline#extensions#tabline#tab_nr_type = 1
+" let g:airline#extensions#tabline#show_tab_nr = 1
+let g:airline#extensions#tabline#show_close_button = 0
+let g:airline#extensions#ale#enabled = 1
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+" let g:airline#extensions#tabline#show_splits = 0
+" let g:airline#extensions#tabline#formatter = 'unique_tail'
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
 
 "=====================================================
 " Tagbar settings
@@ -180,8 +194,8 @@ let g:tagbar_autofocus = 0 " disable Tagbar autofocus
 "=====================================================
 " ignored files 
 let NERDTreeIgnore=['\~$', '\.pyc$', '\.pyo$', '\.class$', 'pip-log\.txt$','\.o$']  
-autocmd BufEnter *.py :call tagbar#autoopen(0)
-autocmd BufWinLeave *.py :TagbarClose
+" autocmd BufEnter *.py :call tagbar#autoopen(0)
+" autocmd BufWinLeave *.py :TagbarClose
 
 "=====================================================
 " NerdComenter settings
@@ -204,18 +218,22 @@ let g:ycm_seed_identifiers_with_syntax = 1 " Completion for programming language
 let g:ycm_complete_in_comments = 1 " Completion in comments
 let g:ycm_complete_in_strings = 1 " Completion in string
 let g:ycm_rust_src_path = '/home/makc/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/'
-let g:ycm_goto_buffer_command = 'new-or-existing-tab' 
+" let g:ycm_goto_buffer_command = 'new-or-existing-tab' 
 
 "=====================================================
 " Ale settings
 "=====================================================
 let g:ale_open_list = 1
+let g:ale_lint_on_enter = 1
 " let g:ale_keep_list_window_open = 1
 let g:ale_python_autopep8_executable = '/home/makc/.pyenv/versions/neovim/bin/autopep8'
-let g:ale_python_flake8_executable = '/home/makc/.pyenv/shims/python'
-let g:ale_python_flake8_options = '-m flake8'
-let g:ale_python_mypy_executable = '/home/makc/.pyenv/versions/neovim/bin/python'
-let g:ale_python_mypy_options = '-m mypy --ignore-missing-imports'
+" let g:ale_python_flake8_executable = '/home/makc/.pyenv/shims/python'
+" let g:ale_python_flake8_options = '-m flake8'
+let g:ale_python_flake8_executable = '/home/makc/.pyenv/versions/neovim/bin/flake8'
+let g:ale_python_flake8_use_global = 1
+let g:ale_python_mypy_executable = '/home/makc/.pyenv/versions/neovim/bin/mypy'
+let g:ale_python_mypy_options = '--ignore-missing-imports --strict'
+let g:ale_python_mypy_use_global = 1
 let g:ale_python_yapf_executable = '/home/makc/.pyenv/versions/neovim/bin/python'
 let g:ale_python_yapf_options = '-m yapf'
 let g:ale_python_isort_executable = '/home/makc/.pyenv/versions/neovim/bin/python'
@@ -317,7 +335,7 @@ endfunction
 "=====================================================
 map <F3> :NERDTreeTabsToggle<CR>
 map <F2> :TagbarToggle<CR>
-map <F4> :SyntasticCheck<CR>
+map <F4> :ALEToggle<CR>
 map <F7> :<C-U>call MySpellLang()<CR>
 set pastetoggle=<F5>
 nnoremap <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
@@ -348,10 +366,10 @@ inoremap <A-C-Down> <Esc>:wincmd j<CR>
 "inoremap <S-Up> <Esc>:wincmd k<CR>
 "inoremap <S-Down> <Esc>:wincmd j<CR>
 "
-nnoremap <A-h> :tabp<CR>
-nnoremap <A-l> :tabn<CR>
-inoremap <A-h> <Esc>:tabp<CR>
-inoremap <A-l> <Esc>:tabn<CR>
+nnoremap <A-h> :bp!<CR>
+nnoremap <A-l> :bn!<CR>
+inoremap <A-h> <Esc>:bp!<CR>
+inoremap <A-l> <Esc>:bn!<CR>
 nnoremap <A-k> :bp<CR>
 nnoremap <A-j> :bn<CR>
 inoremap <A-k> <Esc>:bp<CR>
