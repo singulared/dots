@@ -3,8 +3,10 @@ set nocompatible              " be iMproved, required
 filetype on                  " required
 
 " Python hosts
-let g:python_host_prog='/home/makc/.pyenv/versions/neovim2/bin/python'
-let g:python3_host_prog='/home/makc/.pyenv/versions/neovim/bin/python'
+" let g:python_host_prog='/home/makc/.pyenv/versions/neovim2/bin/python'
+" let g:python3_host_prog='/home/makc/.pyenv/versions/neovim/bin/python'
+let g:python_host_prog='/usr/bin/python2'
+let g:python3_host_prog='/usr/bin/python3'
 
 " Functions
 let g:myLang = 0
@@ -33,7 +35,7 @@ function! BuildComposer(info)
 endfunction
 
 " Plugins
-Plug 'Valloric/YouCompleteMe'
+" Plug 'Valloric/YouCompleteMe'
 Plug 'airblade/vim-gitgutter'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-surround'
@@ -62,10 +64,31 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-scripts/dbext.vim'
 Plug 'aklt/plantuml-syntax'
 Plug 'cespare/vim-toml'
-Plug 'w0rp/ale'
+
+" Plug 'w0rp/ale'
 Plug 'mileszs/ack.vim'
 Plug 'tyru/open-browser.vim'
 Plug 'weirongxu/plantuml-previewer.vim'
+
+" A dependency of 'ncm2'.
+Plug 'roxma/nvim-yarp'
+
+" v2 of the nvim-completion-manager.
+Plug 'ncm2/ncm2'
+
+" LanguageServer client for NeoVim.
+Plug 'autozimu/LanguageClient-neovim', {
+  \ 'branch': 'next',
+  \ 'do': 'bash install.sh',
+  \ }
+
+" Show parameter doc.
+Plug 'Shougo/echodoc.vim'
+
+" (Optional) Multi-entry selection UI.
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+
 " Plug 'scrooloose/vim-slumlord'
 " Plug 'neovim/node-host', { 'do': 'npm install' }
 " Plug 'scrooloose/syntastic'
@@ -160,6 +183,48 @@ let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:DevIconsEnableFoldersOpenClose = 1
 
 "=====================================================
+" LanguageClient settings
+"=====================================================
+set hidden
+
+let g:LanguageClient_serverCommands = {
+    \ 'python': ['/home/makc/.pyenv/versions/neovim/bin/pyls'],
+    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+    \ }
+let g:LanguageClient_selectionUI = 'fzf'
+" let g:LanguageClient_diagnosticsList = 'Location'
+
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> <leader>g :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <leader>r :call LanguageClient#textDocument_references()<CR>
+nnoremap <silent> <F6> :call LanguageClient_contextMenu()<CR>
+
+" Always draw the signcolumn.
+set signcolumn=yes
+
+" \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+" \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
+" \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+
+"=====================================================
+" ncm2 settings
+"=====================================================
+autocmd BufEnter * call ncm2#enable_for_buffer()
+
+" IMPORTANTE: :help Ncm2PopupOpen for more information
+set completeopt=noinsert,menuone,noselect
+
+" When the <Enter> key is pressed while the popup menu is visible, it only
+" hides the menu. Use this mapping to close the menu and also start a new
+" line
+inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+
+" Use <TAB> to select the popup menu:
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+
+"=====================================================
 " Airline settings
 "=====================================================
 set laststatus=2
@@ -206,19 +271,19 @@ let g:NERDSpaceDelims = 1
 "=====================================================
 " YouCompleteMe settings
 "=====================================================
-" let g:ycm_server_keep_logfiles=1
-" let g:ycm_path_to_python_interpreter = '/usr/bin/python'
-let g:ycm_python_binary_path = '/home/makc/.pyenv/versions/3.6.2/bin/python3.6'
-let g:ycm_server_python_interpreter = '/home/makc/.pyenv/versions/3.6.2/bin/python3.6'
-" let g:ycm_path_to_python_interpreter = '/home/makc/.pyenv/shims/python' 
-let g:ycm_path_to_python_interpreter = '/home/makc/.pyenv/versions/3.6.2/bin/python3.6'
-let g:ycm_collect_identifiers_from_tags_files = 1 " Let YCM read tags from Ctags file
-" let g:ycm_use_ultisnips_completer = 1 " Default 1, just ensure
-let g:ycm_seed_identifiers_with_syntax = 1 " Completion for programming language's keyword
-let g:ycm_complete_in_comments = 1 " Completion in comments
-let g:ycm_complete_in_strings = 1 " Completion in string
-let g:ycm_rust_src_path = '/home/makc/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/'
-" let g:ycm_goto_buffer_command = 'new-or-existing-tab' 
+" " let g:ycm_server_keep_logfiles=1
+" " let g:ycm_path_to_python_interpreter = '/usr/bin/python'
+" let g:ycm_python_binary_path = '/home/makc/.pyenv/versions/3.6.2/bin/python3.6'
+" let g:ycm_server_python_interpreter = '/home/makc/.pyenv/versions/3.6.2/bin/python3.6'
+" " let g:ycm_path_to_python_interpreter = '/home/makc/.pyenv/shims/python' 
+" let g:ycm_path_to_python_interpreter = '/home/makc/.pyenv/versions/3.6.2/bin/python3.6'
+" let g:ycm_collect_identifiers_from_tags_files = 1 " Let YCM read tags from Ctags file
+" " let g:ycm_use_ultisnips_completer = 1 " Default 1, just ensure
+" let g:ycm_seed_identifiers_with_syntax = 1 " Completion for programming language's keyword
+" let g:ycm_complete_in_comments = 1 " Completion in comments
+" let g:ycm_complete_in_strings = 1 " Completion in string
+" let g:ycm_rust_src_path = '/home/makc/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/'
+" " let g:ycm_goto_buffer_command = 'new-or-existing-tab' 
 
 "=====================================================
 " Ale settings
@@ -239,8 +304,8 @@ let g:ale_python_yapf_options = '-m yapf'
 let g:ale_python_isort_executable = '/home/makc/.pyenv/versions/neovim/bin/python'
 let g:ale_python_isort_options = '-m isort'
 let g:ale_python_pylint_executable = '/home/makc/.pyenv/versions/neovim/bin/pylint'
-let g:ale_linters = {'python': ['flake8']}
-let g:ale_fixers = {'python': ['isort']}
+" let g:ale_linters = {'python': ['flake8']}
+" let g:ale_fixers = {'python': ['isort']}
 let g:ale_echo_msg_format = '[%linter%] [%severity%] %s'
 let g:ale_lint_on_text_changed = 'never'
 
@@ -337,8 +402,9 @@ map <F3> :NERDTreeTabsToggle<CR>
 map <F2> :TagbarToggle<CR>
 map <F4> :ALEToggle<CR>
 map <F7> :<C-U>call MySpellLang()<CR>
+map <leader>q :bp<bar>sp<bar>bn<bar>bd<CR>. 
 set pastetoggle=<F5>
-nnoremap <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
+" nnoremap <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
 nnoremap <A-Left> :tabp<CR>
 nnoremap <A-Right> :tabn<CR>
 inoremap <A-Left> <Esc>:tabp<CR>
