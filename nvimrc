@@ -27,6 +27,8 @@ endfunction
 " set the runtime path to include Vundle and initialize
 call plug#begin('~/.nvim/bundle')
 
+" let g:plug_url_format = 'git@github.com:%s.git'
+
 function! BuildComposer(info)
   if a:info.status != 'unchanged' || a:info.force
     !cargo build --release
@@ -190,15 +192,16 @@ let g:DevIconsEnableFoldersOpenClose = 1
 set completeopt=noinsert,menuone,noselect
 " set completeopt-=preview
 
-nnoremap <silent> <leader>g <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> gD        <cmd>lua vim.lsp.buf.declaration()<CR>
-nnoremap <silent> K         <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> <leader>I <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> <c-k>     <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> <leader>G <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent> gr        <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> <leader>g  <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> gD         <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> K          <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> <leader>I  <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> <leader>s  <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> <leader>G  <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> gr         <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> <leader>ic <cmd>lua vim.lsp.buf.incoming_calls()<CR>
 nnoremap <silent> <leader>ic <cmd>lua vim.lsp.buf.outgoing_calls()<CR>
+nnoremap <silent> <leader>r  <cmd>lua vim.lsp.buf.rename()<Cr>
 " nnoremap <silent> <leader>e <cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
 nnoremap <leader>[ <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
 nnoremap <leader>] <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
@@ -229,7 +232,6 @@ require'lspconfig'.rust_analyzer.setup{
             cargo = {
                 allFeatures = true,
             },
-            checkOnSave = true,
         },
     }
 }
@@ -249,8 +251,17 @@ require'lspconfig'.pyls.setup{
 		return root_pattern(filename) or nvim_lsp.util.dirname(filename)
 	end;
 }
-EOF
 
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    signs = true,
+    underline = false,
+    update_in_insert = false,
+    virtual_text = true,
+  }
+)
+
+EOF
 " Avoid showing message extra message when using completion
 set shortmess+=c
 
