@@ -3,10 +3,10 @@ set nocompatible              " be iMproved, required
 filetype on                  " required
 
 " Python hosts
-" let g:python_host_prog='/home/makc/.pyenv/versions/neovim2/bin/python'
-" let g:python3_host_prog='/home/makc/.pyenv/versions/neovim/bin/python'
-let g:python_host_prog='/usr/bin/python2'
-let g:python3_host_prog='/usr/bin/python3'
+let g:python_host_prog='/home/singulared/.pyenv/versions/neovim2/bin/python'
+let g:python3_host_prog='/home/singulared/.pyenv/versions/neovim-3.8.1/bin/python'
+" let g:python_host_prog='/usr/bin/python2'
+" let g:python3_host_prog='/usr/bin/python3'
 
 " Functions
 let g:myLang = 0
@@ -35,16 +35,12 @@ function! BuildComposer(info)
 endfunction
 
 " Plugins
-" Plug 'Valloric/YouCompleteMe'
-Plug 'airblade/vim-gitgutter'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-surround'
 Plug 'bling/vim-bufferline'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'elubow/cql-vim'
 Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
 Plug 'hdima/python-syntax'
-Plug 'iCyMind/NeoSolarized'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'klen/python-mode', {'branch': 'develop'}
 Plug 'majutsushi/tagbar'
@@ -58,29 +54,43 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'scrooloose/NERDCommenter'
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-scripts/dbext.vim'
 Plug 'aklt/plantuml-syntax'
 Plug 'cespare/vim-toml'
 
-" Plug 'w0rp/ale'
 Plug 'mileszs/ack.vim'
 Plug 'tyru/open-browser.vim'
 Plug 'weirongxu/plantuml-previewer.vim'
 
-" A dependency of 'ncm2'.
-Plug 'roxma/nvim-yarp'
+" Themees
+Plug 'lifepillar/vim-solarized8'
 
-" v2 of the nvim-completion-manager.
-Plug 'ncm2/ncm2'
+" Git
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'rhysd/git-messenger.vim'
+
+" Float windows documentation preview
+Plug 'ncm2/float-preview.nvim'
 
 " LanguageServer client for NeoVim.
-Plug 'autozimu/LanguageClient-neovim', {
-  \ 'branch': 'next',
-  \ 'do': 'bash install.sh',
-  \ }
+Plug 'neovim/nvim-lsp'
+
+" Completion manager for lsp
+Plug 'haorenW1025/completion-nvim'
+
+" Diagnostic messages [deprecated and moved into nvim-lsp]
+" Plug 'haorenW1025/diagnostic-nvim'
+
+" Snippets support
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
+" Plug 'Shougo/neosnippet.vim'
+" Plug 'Shougo/neosnippet-snippets'
+" Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 
 " Show parameter doc.
 Plug 'Shougo/echodoc.vim'
@@ -88,14 +98,6 @@ Plug 'Shougo/echodoc.vim'
 " (Optional) Multi-entry selection UI.
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-
-" Plug 'scrooloose/vim-slumlord'
-" Plug 'neovim/node-host', { 'do': 'npm install' }
-" Plug 'scrooloose/syntastic'
-" Plug 'Xuyuanp/nerdtree-git-plugin'
-" Plug 'altercation/vim-colors-solarized'
-" Plug 'vimlab/mdown.vim', { 'do': 'npm install' }
-
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
@@ -111,10 +113,6 @@ set novisualbell
 
 syntax on
 set termguicolors
-"set t_Co=256
-set background=dark
-"let g:solarized_termcolors=256
-colorscheme NeoSolarized
 
 set enc=utf-8	     " utf-8 is a default
 set ls=2             " statusbar is visible always
@@ -149,32 +147,30 @@ set guifont=DejaVu\ Sans\ Mono\ For\ Powerline\ Nerd\ Font\ 10
 
 " Cursor shape
 set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
-" set guicursor=
 au VimLeave * set guicursor=a:block-blinkon0
 
+" Wildmenu
+set wildoptions=pum
+set pumblend=20
+
+" Per project settings
+set exrc
+set secure
 
 "=====================================================
-" NeoSolarized settings
+" Solarized8 settings
 "=====================================================
-" default value is "normal", Setting this option to "high" or "low" does use the 
-" same Solarized palette but simply shifts some values up or down in order to 
-" expand or compress the tonal range displayed.
-let g:neosolarized_contrast = "normal"
+set background=dark
+colorscheme solarized8_flat
+let g:solarized_old_cursor_style = 1
 
-" Special characters such as trailing whitespace, tabs, newlines, when displayed 
-" using ":set list" can be set to one of three levels depending on your needs. 
-" Default value is "normal". Provide "high" and "low" options.
-let g:neosolarized_visibility = "normal"
-
-" I make vertSplitBar a transparent background color. If you like the origin solarized vertSplitBar
-" style more, set this value to 0.
-let g:neosolarized_vertSplitBgTrans = 1
-
-" If you wish to enable/disable NeoSolarized from displaying bold, underlined or italicized 
-" typefaces, simply assign 1 or 0 to the appropriate variable. Default values:  
-let g:neosolarized_bold = 1
-let g:neosolarized_underline = 1
-let g:neosolarized_italic = 0
+" Debug syntax group
+function! SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
 
 "=====================================================
 " Devicons settings 
@@ -183,46 +179,113 @@ let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:DevIconsEnableFoldersOpenClose = 1
 
 "=====================================================
-" LanguageClient settings
+" Nvim lsp settings
 "=====================================================
-set hidden
+" setup rust_analyzer LSP (IDE features)
+" lua require'nvim_lsp'.rust_analyzer.setup{capabilities = {textDocument = {completion = {completionItem = {snippetSupport = true}}}}}
+" lua require'nvim_lsp'.pyls.setup{on_attach=require'completion'.on_attach, cmd = {'/home/singulared/.pyenv/versions/neovim-3.8.1/bin/pyls'}, settings = {pyls = {configurationSources = { "pyflakes", "pycodestyle" }}}}
 
-let g:LanguageClient_serverCommands = {
-    \ 'python': ['/home/makc/.pyenv/versions/neovim/bin/pyls'],
-    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
-    \ }
-let g:LanguageClient_selectionUI = 'fzf'
-" let g:LanguageClient_diagnosticsList = 'Location'
-
-nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> <leader>g :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> <leader>r :call LanguageClient#textDocument_references()<CR>
-nnoremap <silent> <F6> :call LanguageClient_contextMenu()<CR>
-
-" Always draw the signcolumn.
-set signcolumn=yes
-
-" \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
-" \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
-" \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
-
-"=====================================================
-" ncm2 settings
-"=====================================================
-autocmd BufEnter * call ncm2#enable_for_buffer()
-
-" IMPORTANTE: :help Ncm2PopupOpen for more information
+" Use LSP omni-completion in Rust files
+" autocmd Filetype rust,python setlocal omnifunc=v:lua.vim.lsp.omnifunc
 set completeopt=noinsert,menuone,noselect
+" set completeopt-=preview
 
-" When the <Enter> key is pressed while the popup menu is visible, it only
-" hides the menu. Use this mapping to close the menu and also start a new
-" line
-inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+nnoremap <silent> <leader>g <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> gD        <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> K         <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> <leader>I <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> <c-k>     <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> <leader>G <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> gr        <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> <leader>ic <cmd>lua vim.lsp.buf.incoming_calls()<CR>
+nnoremap <silent> <leader>ic <cmd>lua vim.lsp.buf.outgoing_calls()<CR>
+" nnoremap <silent> <leader>e <cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
+nnoremap <leader>[ <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
+nnoremap <leader>] <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+nnoremap <leader>d <cmd>lua vim.lsp.diagnostic.set_loclist()<Cr>
 
 " Use <TAB> to select the popup menu:
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+let g:completion_confirm_key = ""
+imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
+                 \ "\<Plug>(completion_confirm_completion)"  : "\<c-e>\<CR>" :  "\<CR>"
 
+"=====================================================
+" Completion-nvim settings
+"=====================================================
+" Enable lsp completion & diagnostic
+
+:lua << EOF
+local nvim_lsp = require'lspconfig';
+local on_attach_vim = function()
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+  require'completion'.on_attach()
+end
+require'lspconfig'.rust_analyzer.setup{
+    on_attach = on_attach_vim, 
+    settings = {
+        ['rust-analyzer'] = {
+            cargo = {
+                allFeatures = true,
+            },
+            checkOnSave = true,
+        },
+    }
+}
+require'lspconfig'.pyls.setup{
+    on_attach=on_attach_vim, 
+    cmd = {'/home/singulared/.pyenv/versions/neovim-3.8.1/bin/pyls'}, 
+    settings = {
+        pyls = {
+            configurationSources = { "pyflakes", "pycodestyle" }
+        }
+    },
+    root_dir = function(fname)
+        local nvim_lsp = require'lspconfig';
+		local filename = nvim_lsp.util.path.is_absolute(fname) and fname
+			or nvim_lsp.util.path.join(vim.loop.cwd(), fname)
+		local root_pattern = nvim_lsp.util.root_pattern('pyproject.toml', 'setup.py', 'setup.cfg', 'requirements.txt', 'mypy.ini', '.pylintrc', '.flake8rc', '.git', '.gitignore')
+		return root_pattern(filename) or nvim_lsp.util.dirname(filename)
+	end;
+}
+EOF
+
+" Avoid showing message extra message when using completion
+set shortmess+=c
+
+" Enable snippets support
+let g:completion_enable_snippet = 'vim-vsnip'
+
+" Setup completion chars
+let g:completion_trigger_character = ['.', '::']
+
+" Fix auto-pairs CR with completion
+" let g:AutoPairsMapCR = 0
+" let g:completion_confirm_key = "\<c-y>"
+
+" Add CR autopairs fallback
+" let g:completion_confirm_key_rhs = "\<Plug>AutoPairsReturn"
+
+"=====================================================
+" Diagnostic-nvim settings
+"=====================================================
+" Enable virtual text
+" let g:diagnostic_enable_virtual_text = 1
+
+"=====================================================
+" Auto-pairs settings
+"=====================================================
+" Enable Fly mode
+" let g:AutoPairsFlyMode = 1
+
+"=====================================================
+" UltiSnips settings
+"=====================================================
+
+imap <A-Tab> <Plug>(neosnippet_expand_or_jump)
+smap <A-Tab> <Plug>(neosnippet_expand_or_jump)
+xmap <A-Tab> <Plug>(neosnippet_expand_target)
 
 "=====================================================
 " Airline settings
@@ -253,6 +316,9 @@ let g:tagbar_autofocus = 0 " disable Tagbar autofocus
 "=====================================================
 " let g:gitgutter_realtime = 0
 " let g:gitgutter_eager = 0
+"
+" Always show sign column
+set signcolumn=yes
 
 "=====================================================
 " NerdTree settings
@@ -261,71 +327,14 @@ let g:tagbar_autofocus = 0 " disable Tagbar autofocus
 let NERDTreeIgnore=['\~$', '\.pyc$', '\.pyo$', '\.class$', 'pip-log\.txt$','\.o$']  
 " autocmd BufEnter *.py :call tagbar#autoopen(0)
 " autocmd BufWinLeave *.py :TagbarClose
+let NERDTreeMapJumpPrevSibling="<A-C-k>"
+let NERDTreeMapJumpNextSibling="<A-C-j>"
 
 "=====================================================
 " NerdComenter settings
 "=====================================================
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
-
-"=====================================================
-" YouCompleteMe settings
-"=====================================================
-" " let g:ycm_server_keep_logfiles=1
-" " let g:ycm_path_to_python_interpreter = '/usr/bin/python'
-" let g:ycm_python_binary_path = '/home/makc/.pyenv/versions/3.6.2/bin/python3.6'
-" let g:ycm_server_python_interpreter = '/home/makc/.pyenv/versions/3.6.2/bin/python3.6'
-" " let g:ycm_path_to_python_interpreter = '/home/makc/.pyenv/shims/python' 
-" let g:ycm_path_to_python_interpreter = '/home/makc/.pyenv/versions/3.6.2/bin/python3.6'
-" let g:ycm_collect_identifiers_from_tags_files = 1 " Let YCM read tags from Ctags file
-" " let g:ycm_use_ultisnips_completer = 1 " Default 1, just ensure
-" let g:ycm_seed_identifiers_with_syntax = 1 " Completion for programming language's keyword
-" let g:ycm_complete_in_comments = 1 " Completion in comments
-" let g:ycm_complete_in_strings = 1 " Completion in string
-" let g:ycm_rust_src_path = '/home/makc/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/'
-" " let g:ycm_goto_buffer_command = 'new-or-existing-tab' 
-
-"=====================================================
-" Ale settings
-"=====================================================
-let g:ale_open_list = 1
-let g:ale_lint_on_enter = 1
-" let g:ale_keep_list_window_open = 1
-let g:ale_python_autopep8_executable = '/home/makc/.pyenv/versions/neovim/bin/autopep8'
-" let g:ale_python_flake8_executable = '/home/makc/.pyenv/shims/python'
-" let g:ale_python_flake8_options = '-m flake8'
-let g:ale_python_flake8_executable = '/home/makc/.pyenv/versions/neovim/bin/flake8'
-let g:ale_python_flake8_use_global = 1
-let g:ale_python_mypy_executable = '/home/makc/.pyenv/versions/neovim/bin/mypy'
-let g:ale_python_mypy_options = '--ignore-missing-imports --strict'
-let g:ale_python_mypy_use_global = 1
-let g:ale_python_yapf_executable = '/home/makc/.pyenv/versions/neovim/bin/python'
-let g:ale_python_yapf_options = '-m yapf'
-let g:ale_python_isort_executable = '/home/makc/.pyenv/versions/neovim/bin/python'
-let g:ale_python_isort_options = '-m isort'
-let g:ale_python_pylint_executable = '/home/makc/.pyenv/versions/neovim/bin/pylint'
-" let g:ale_linters = {'python': ['flake8']}
-" let g:ale_fixers = {'python': ['isort']}
-let g:ale_echo_msg_format = '[%linter%] [%severity%] %s'
-let g:ale_lint_on_text_changed = 'never'
-
-"=====================================================
-" Syntastic settings
-"=====================================================
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
-" "let g:syntastic_python_python_exec = 'python3'
-" let g:syntastic_python_checkers = ['flake8', 'pyflakes']
-" let g:syntastic_python_pylint_post_args='--disable=E1120,E1130,E1103,W1401'
-" "let g:syntastic_ignore_files = ['\.py$']
-" let g:syntastic_rst_checkers = ['sphinx']
-" let g:syntastic_rust_checkers = ['cargo']
 
 "=====================================================
 " Pythonmode settings
@@ -343,7 +352,7 @@ let python_highlight_builtins=0
 let python_slow_sync=1
 
 " disable pymode autocomplete
-let g:pymode_rope = 1
+let g:pymode_rope = 0
 let g:pymode_rope_completion = 0
 let g:pymode_rope_complete_on_dot = 0
 
@@ -378,6 +387,33 @@ let g:pymode_syntax_space_errors = g:pymode_syntax_all
 let g:pymode_folding = 0
 
 "=====================================================
+" Ack configuration
+"=====================================================
+cnoreabbrev Ack Ack!
+nnoremap <Leader>a :Ack!<Space>
+
+"=====================================================
+" Clipboard configuration
+"
+" Wayland clipboard provider that strips carriage returns (GTK3 issue).
+" This is needed because currently there's an issue where GTK3 applications on
+" Wayland contain carriage returns at the end of the lines (this is a root
+" issue that needs to be fixed).
+"=====================================================
+" let g:clipboard = {
+      " \   'name': 'wayland-strip-carriage',
+      " \   'copy': {
+      " \      '+': 'wl-copy --foreground --type text/plain',
+      " \      '*': 'wl-copy --foreground --type text/plain --primary',
+      " \    },
+      " \   'paste': {
+      " \      '+': {-> systemlist('wl-paste --no-newline | tr -d "\r"')},
+      " \      '*': {-> systemlist('wl-paste --no-newline --primary | tr -d "\r"')},
+      " \   },
+      " \   'cache_enabled': 1,
+      " \ }
+
+"=====================================================
 " User defined functions
 "=====================================================
 command! CloseHiddenBuffers call s:CloseHiddenBuffers()
@@ -402,7 +438,9 @@ map <F3> :NERDTreeTabsToggle<CR>
 map <F2> :TagbarToggle<CR>
 map <F4> :ALEToggle<CR>
 map <F7> :<C-U>call MySpellLang()<CR>
-map <leader>q :bp<bar>sp<bar>bn<bar>bd<CR>. 
+nnoremap <C-p> :Files<Cr>
+" map <leader>q :bp<bar>sp<bar>bn<bar>bd<CR>. 
+nnoremap <leader>q :bp<cr>:bd #<cr>
 set pastetoggle=<F5>
 " nnoremap <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
 nnoremap <A-Left> :tabp<CR>
@@ -423,15 +461,6 @@ inoremap <A-C-Left> <Esc>:wincmd h<CR>
 inoremap <A-C-Up> <Esc>:wincmd k<CR>
 inoremap <A-C-Down> <Esc>:wincmd j<CR>
 
-"nnoremap <S-Right> :wincmd l<CR>
-"nnoremap <S-Left> :wincmd h<CR>
-"nnoremap <S-Up> :wincmd k<CR>
-"nnoremap <S-Down> :wincmd j<CR>
-"inoremap <S-Right> <Esc>:wincmd l<CR>
-"inoremap <S-Left> <Esc>:wincmd h<CR>
-"inoremap <S-Up> <Esc>:wincmd k<CR>
-"inoremap <S-Down> <Esc>:wincmd j<CR>
-"
 nnoremap <A-h> :bp!<CR>
 nnoremap <A-l> :bn!<CR>
 inoremap <A-h> <Esc>:bp!<CR>
@@ -441,13 +470,13 @@ nnoremap <A-j> :bn<CR>
 inoremap <A-k> <Esc>:bp<CR>
 inoremap <A-j> <Esc>:bn<CR>
 
-nnoremap <A-C-l> :wincmd l<CR>
-nnoremap <A-C-h> :wincmd h<CR>
-nnoremap <A-C-k> :wincmd k<CR>
-nnoremap <A-C-j> :wincmd j<CR>
-inoremap <A-C-l> <Esc>:wincmd l<CR>
-inoremap <A-C-h> <Esc>:wincmd h<CR>
-inoremap <A-C-k> <Esc>:wincmd k<CR>
-inoremap <A-C-j> <Esc>:wincmd j<CR>
+nnoremap <C-l> :wincmd l<CR>
+nnoremap <C-h> :wincmd h<CR>
+nnoremap <C-k> :wincmd k<CR>
+nnoremap <C-j> :wincmd j<CR>
+inoremap <C-l> <Esc>:wincmd l<CR>
+inoremap <C-h> <Esc>:wincmd h<CR>
+inoremap <C-k> <Esc>:wincmd k<CR>
+inoremap <C-j> <Esc>:wincmd j<CR>
 "set langmap=!\\"№\\;%?*ёйцукенгшщзхъфывапролджэячсмитьбюЁЙЦУКЕHГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ;!@#$%&*`qwertyuiop[]asdfghjkl\\;'zxcvbnm\\,.~QWERTYUIOP{}ASDFGHJKL:\\"ZXCVBNM<>
 "inoremap <C-c> <Esc>
