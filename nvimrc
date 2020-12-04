@@ -3,8 +3,8 @@ set nocompatible              " be iMproved, required
 filetype on                  " required
 
 " Python hosts
-let g:python_host_prog='/home/singulared/.pyenv/versions/neovim2/bin/python'
-let g:python3_host_prog='/home/singulared/.pyenv/versions/neovim-3.8.1/bin/python'
+let g:python_host_prog='~/.pyenv/versions/neovim2/bin/python'
+let g:python3_host_prog='~/.pyenv/versions/neovim-3.8.1/bin/python'
 " let g:python_host_prog='/usr/bin/python2'
 " let g:python3_host_prog='/usr/bin/python3'
 
@@ -237,7 +237,7 @@ require'lspconfig'.rust_analyzer.setup{
 }
 require'lspconfig'.pyls.setup{
     on_attach=on_attach_vim, 
-    cmd = {'/home/singulared/.pyenv/versions/neovim-3.8.1/bin/pyls'}, 
+    cmd = {'~/.pyenv/versions/neovim-3.8.1/bin/pyls'}, 
     settings = {
         pyls = {
             configurationSources = { "pyflakes", "pycodestyle" }
