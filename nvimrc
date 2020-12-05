@@ -3,8 +3,8 @@ set nocompatible              " be iMproved, required
 filetype on                  " required
 
 " Python hosts
-let g:python_host_prog='~/.pyenv/versions/neovim2/bin/python'
-let g:python3_host_prog='~/.pyenv/versions/neovim-3.8.1/bin/python'
+let g:python_host_prog='/home/singulared/.pyenv/versions/neovim2/bin/python'
+let g:python3_host_prog='/home/singulared/.pyenv/versions/neovim-3.8.1/bin/python'
 " let g:python_host_prog='/usr/bin/python2'
 " let g:python3_host_prog='/usr/bin/python3'
 
@@ -37,15 +37,20 @@ function! BuildComposer(info)
 endfunction
 
 " Plugins
+" Insert or delete brackets, parens, quotes in pair.
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-surround'
-Plug 'bling/vim-bufferline'
+
+" Buffer line
+Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
+Plug 'akinsho/nvim-bufferline.lua' " Buffer line implementation
+
 Plug 'elubow/cql-vim'
 Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
 Plug 'hdima/python-syntax'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'klen/python-mode', {'branch': 'develop'}
-Plug 'majutsushi/tagbar'
+" Plug 'majutsushi/tagbar'
 Plug 'mattn/gist-vim'
 Plug 'mattn/webapi-vim'
 Plug 'mitsuhiko/vim-jinja'
@@ -78,10 +83,14 @@ Plug 'rhysd/git-messenger.vim'
 Plug 'ncm2/float-preview.nvim'
 
 " LanguageServer client for NeoVim.
-Plug 'neovim/nvim-lsp'
+Plug 'neovim/nvim-lspconfig'
 
 " Completion manager for lsp
-Plug 'haorenW1025/completion-nvim'
+Plug 'nvim-lua/completion-nvim'
+
+" LSP Extensions
+Plug 'nvim-lua/lsp_extensions.nvim'
+Plug 'nvim-lua/lsp-status.nvim'
 
 " Diagnostic messages [deprecated and moved into nvim-lsp]
 " Plug 'haorenW1025/diagnostic-nvim'
@@ -100,6 +109,9 @@ Plug 'Shougo/echodoc.vim'
 " (Optional) Multi-entry selection UI.
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+
+" View and search LSP symbols, tags in Vim/NeoVim.
+Plug 'liuchengxu/vista.vim'
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
@@ -202,6 +214,7 @@ nnoremap <silent> gr         <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> <leader>ic <cmd>lua vim.lsp.buf.incoming_calls()<CR>
 nnoremap <silent> <leader>ic <cmd>lua vim.lsp.buf.outgoing_calls()<CR>
 nnoremap <silent> <leader>r  <cmd>lua vim.lsp.buf.rename()<Cr>
+nnoremap <silent> <leader>f  <cmd>lua vim.lsp.buf.formatting()<Cr>
 " nnoremap <silent> <leader>e <cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
 nnoremap <leader>[ <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
 nnoremap <leader>] <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
@@ -237,7 +250,7 @@ require'lspconfig'.rust_analyzer.setup{
 }
 require'lspconfig'.pyls.setup{
     on_attach=on_attach_vim, 
-    cmd = {'~/.pyenv/versions/neovim-3.8.1/bin/pyls'}, 
+    cmd = {'/home/singulared/.pyenv/versions/neovim-3.8.1/bin/pyls'}, 
     settings = {
         pyls = {
             configurationSources = { "pyflakes", "pycodestyle" }
@@ -299,16 +312,25 @@ smap <A-Tab> <Plug>(neosnippet_expand_or_jump)
 xmap <A-Tab> <Plug>(neosnippet_expand_target)
 
 "=====================================================
+" Vista settings
+"=====================================================
+" Executive used when opening vista sidebar without specifying it.
+" See all the avaliable executives via `:echo g:vista#executives`.
+let g:vista_default_executive = 'nvim_lsp'
+let g:vista#renderer#enable_icon = 1
+let g:vista_echo_cursor_strategy = "floating_win"
+
+"=====================================================
 " Airline settings
 "=====================================================
 set laststatus=2
 let g:airline_theme='solarized'
 let g:airline_solarized_bg='dark'
 let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#tab_nr_type = 1
-" let g:airline#extensions#tabline#show_tab_nr = 1
-let g:airline#extensions#tabline#show_close_button = 0
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#tab_nr_type = 1
+" " let g:airline#extensions#tabline#show_tab_nr = 1
+" let g:airline#extensions#tabline#show_close_button = 0
 let g:airline#extensions#ale#enabled = 1
 let g:airline#extensions#tagbar#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
@@ -346,6 +368,19 @@ let NERDTreeMapJumpNextSibling="<A-C-j>"
 "=====================================================
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
+
+"=====================================================
+" Bufferline settings
+"=====================================================
+:lua << EOF
+require'bufferline'.setup{
+    options = {
+        show_buffer_close_icons = false,
+        separator_style = 'thin',
+        numbers = "buffer_id",
+    }
+}
+EOF
 
 "=====================================================
 " Pythonmode settings
@@ -446,8 +481,7 @@ endfunction
 " User defined shortcut
 "=====================================================
 map <F3> :NERDTreeTabsToggle<CR>
-map <F2> :TagbarToggle<CR>
-map <F4> :ALEToggle<CR>
+map <F2> :Vista!!<CR>
 map <F7> :<C-U>call MySpellLang()<CR>
 nnoremap <C-p> :Files<Cr>
 " map <leader>q :bp<bar>sp<bar>bn<bar>bd<CR>. 
