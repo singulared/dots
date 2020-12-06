@@ -16,3 +16,6 @@ let g:myLangList = ['nospell', 'en_us,ru_yo']
 
 " Show current cursor line
 set cursorline
+
+" Clipboard
+set clipboard+=unnamedplus
