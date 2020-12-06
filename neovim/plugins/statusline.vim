@@ -9,4 +9,4 @@ let g:airline_powerline_fonts = 1
 let g:airline#extensions#nvimlsp#enabled = 0
 
 let g:airline_section_warning = airline#section#create_right(['lsp_status'])
-
+set showtabline=2
