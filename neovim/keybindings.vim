@@ -1,4 +1,4 @@
-map <F3> :LuaTreeToggle<CR>
+map <F3> :NvimTreeToggle<CR>
 map <F2> :Vista!!<CR>
 map <F7> :<C-U>call MySpellLang()<CR>
 " nnoremap <C-p> :Files<Cr>

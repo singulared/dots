@@ -22,3 +22,4 @@ let g:lua_tree_show_icons = {
     \ 'files': 1,
     \ }
 
+let g:nvim_tree_ignore = [ '.git', '__pycache__']

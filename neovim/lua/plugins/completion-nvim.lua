@@ -3,10 +3,11 @@ local lsp_status = require('lsp-status')
 
 lsp_status.register_progress()
 
+
 local on_attach_vim = function(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
   require'completion'.on_attach(client, bufnr)
-  lsp_status.on_attach(client, bufnr)
+  -- lsp_status.on_attach(client, bufnr)
 end
 
 -- local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -31,8 +32,13 @@ nvim_lsp.pyls.setup{
     cmd = {'pyls'}, 
     settings = {
         pyls = {
-            configurationSources = { "pyflakes", "pycodestyle", "mypy"}
-        }
+            configurationSources = { "pyflakes", "pycodestyle", "mypy"},
+	    plugins = {
+	        jedi = {
+		    extra_paths = { io.popen("python -c \"import sys; print(next((p for p in sys.path if 'site-packages' in p), ''))\"", "r"):read() },
+	        },
+            },
+        },
     },
     root_dir = function(fname)
         local nvim_lsp = require'lspconfig';

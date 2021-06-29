@@ -1,11 +1,12 @@
-syntax enable
 set termguicolors
+syntax on
 
-colorscheme edge
-set background=dark
-let g:edge_style = 'aura'
+" set background=dark
+let g:edge_style = "aura"
 let g:edge_better_performance = !has("win32")
 let g:edge_diagnostic_line_highlight = 1
+
+colorscheme edge
 
 " " Oceanic-next settings
 " colorscheme OceanicNext
