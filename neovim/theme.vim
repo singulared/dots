@@ -3,8 +3,10 @@ syntax on
 
 " set background=dark
 let g:edge_style = "aura"
-let g:edge_better_performance = !has("win32")
-let g:edge_diagnostic_line_highlight = 1
+let g:edge_better_performance = 1
+" let g:edge_diagnostic_line_highlight = 1
+" let g:edge_diagnostic_text_highlight = 1
+let g:edge_diagnostic_virtual_text = 'colored'
 
 colorscheme edge
 

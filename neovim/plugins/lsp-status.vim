@@ -1,1 +1,1 @@
-lua require('plugins.lsp-status')
+" lua require('plugins.lsp-status')
