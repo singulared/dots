@@ -19,11 +19,12 @@ local on_attach_vim = function(client, bufnr)
 
     -- Set some key bindings conditional on server capabilities
     -- if client.server_capabilities.document_formatting then
-        vim.keymap.set("n", "<leader>f", vim.lsp.buf.formatting, opts)
+        -- vim.keymap.set("n", "<leader>f", vim.lsp.buf.formatting, opts)
     -- end
     -- if client.server_capabilities.document_range_formatting then
-        vim.keymap.set("x", "<leader>f", vim.lsp.buf.range_formatting, opts)
+        -- vim.keymap.set("x", "<leader>f", vim.lsp.buf.range_formatting, opts)
     -- end
+    vim.keymap.set('n', '<leader>f', function() vim.lsp.buf.format { async = true } end, opts)
 
     vim.api.nvim_buf_set_option(bufnr, "formatexpr", "v:lua.vim.lsp.formatexpr()")
     -- vim.api.nvim_buf_set_option(buf, "omnifunc", "v:lua.vim.lsp.omnifunc")
@@ -35,7 +36,7 @@ end
 -- capabilities.textDocument.completion.completionItem.snippetSupport = true
 -- local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+capabilities = require('cmp_nvim_lsp').default_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- nvim_lsp.rust_analyzer.setup{
@@ -95,11 +96,15 @@ nvim_lsp.pylsp.setup{
     single_file_support = true,
     settings = {
         pylsp = {
-            configurationSources = { "pyflakes", "pycodestyle", "mypy"},
+            configurationSources = { "mypy", "pyflakes", "pycodestyle" },
 	        plugins = {
 	            jedi = {
 		            extra_paths = { io.popen("python -c \"import sys; print(next((p for p in sys.path if 'site-packages' in p), ''))\"", "r"):read() },
 	            },
+                pylsp_mypy = {
+                    enable = true,
+                    dmypy = true,
+                },
             },
         },
     },

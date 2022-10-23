@@ -42,7 +42,8 @@ function! PackagerInit() abort
   call packager#add('hrsh7th/cmp-cmdline')                                                      " Cmd line completion
   call packager#add('hrsh7th/nvim-cmp')                                                         " Neovim completion
   call packager#add('nvim-telescope/telescope-ui-select.nvim')                                  " Ui actions picker (completer)
-  call packager#add('simrat39/rust-tools.nvim', { 'branch': 'modularize_and_inlay_rewrite'})    " Rust tools (lsp extension)
+  " call packager#add('simrat39/rust-tools.nvim', { 'branch': 'modularize_and_inlay_rewrite'})  " Rust tools (lsp extension)
+  call packager#add('simrat39/rust-tools.nvim')                                                 " Rust tools (lsp extension)
   call packager#add('mfussenegger/nvim-dap')                                                    " Debugger
   call packager#add('rcarriga/nvim-dap-ui')                                                     " Debugger UI
   call packager#add('rcarriga/nvim-notify')                                                     " Notifications
