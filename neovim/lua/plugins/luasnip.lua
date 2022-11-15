@@ -1,5 +1,11 @@
--- Keymaps for Luasnip
 local ls = require("luasnip")
+-- LuaSnip configuaration
+ls.config.setup({
+    region_check_events = "CursorHold,InsertLeave",
+    delete_check_events = "TextChanged,InsertEnter",
+})
+
+-- Keymaps for Luasnip
 vim.keymap.set({ "i", "s" }, "<C-k>", function()
 	if ls.expand_or_jumpable() then
 		ls.expand_or_jump()
