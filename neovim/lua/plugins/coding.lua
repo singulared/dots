@@ -30,6 +30,7 @@ return {
 
 			local luasnip = require("luasnip")
 			local cmp = require("cmp")
+			opts.sources = cmp.config.sources(vim.list_extend(opts.sources, { { name = "crates" } }))
 			opts.completion = {
 				completeopt = "menuone,noinsert,noselect",
 			}
