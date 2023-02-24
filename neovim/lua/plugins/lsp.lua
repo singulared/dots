@@ -17,4 +17,10 @@ return {
 			end
 		end,
 	},
+
+	{ "lvimuser/lsp-inlayhints.nvim", opts = {
+		inlay_hints = {
+			only_current_line = true,
+		},
+	} },
 }

@@ -9,12 +9,16 @@ return {
 			color_overrides = {
 				frappe = {
 					base = "#2b2d37",
+					mantle = "#24262d",
+					crust = "#202023",
 				},
 			},
 			integrations = {
+				cmp = true,
 				leap = true,
 				notify = false,
 				illuminate = true,
+				neotree = true,
 			},
 		},
 	},
