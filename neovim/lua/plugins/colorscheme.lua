@@ -3,7 +3,7 @@ return {
 		"catppuccin/nvim",
 		lazy = true,
 		name = "catppuccin",
-		version = "*",
+		version = false,
 		opts = {
 			flavour = "frappe",
 			color_overrides = {
@@ -19,6 +19,7 @@ return {
 				notify = false,
 				illuminate = true,
 				neotree = true,
+				neogit = true,
 			},
 		},
 	},
