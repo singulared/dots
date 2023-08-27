@@ -3,7 +3,53 @@ return {
 		"neovim/nvim-lspconfig",
 		opts = {
 			servers = {
-				-- rust_analyzer = {},
+				yamlls = {
+					settings = {
+						yaml = {
+							customTags = {
+								"!Header mapping",
+								"!Header scalar",
+								"!Path mapping",
+								"!Path scalar",
+								"!Query mapping",
+								"!Query scalar",
+								"!Body mapping",
+								"!Body scalar",
+								"!Status mapping",
+								"!Status scalar",
+							},
+						},
+					},
+				},
+				pylsp = {
+					settings = {
+						pylsp = {
+							plugins = {
+								ruff = {
+									enabled = true,
+									extendSelect = { "I" },
+								},
+								black = { enabled = true },
+								autopep8 = { enabled = false },
+								pycodestyle = { enabled = false },
+								pyflakes = { enabled = false },
+								pylint = { enabled = false },
+								yapf = { enabled = false },
+								jedi = {
+									extra_paths = {
+										io.popen(
+											"python -c \"import sys; print(next((p for p in sys.path if 'site-packages' in p), ''))\"",
+											"r"
+										):read(),
+									},
+								},
+								pylsp_mypy = {
+									enabled = true,
+								},
+							},
+						},
+					},
+				},
 			},
 		},
 	},
@@ -33,13 +79,16 @@ return {
 
 	{
 		"jose-elias-alvarez/null-ls.nvim",
+		version = false,
 		opts = function()
 			local nls = require("null-ls")
+			local cspell = require("cspell")
 			return {
 				sources = {
-					nls.builtins.diagnostics.cspell,
-					nls.builtins.diagnostics.flake8,
-					nls.builtins.code_actions.cspell,
+					cspell.diagnostics.with({
+						method = nls.methods.DIAGNOSTICS_ON_SAVE,
+					}),
+					cspell.code_actions,
 					nls.builtins.formatting.stylua,
 				},
 			}

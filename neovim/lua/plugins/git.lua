@@ -3,7 +3,8 @@ return {
 		"sindrets/diffview.nvim",
 	},
 	{
-		"TimUntersberger/neogit",
+		"NeogitOrg/neogit",
+		version = false,
 		dependencies = {
 			"sindrets/diffview.nvim",
 		},
