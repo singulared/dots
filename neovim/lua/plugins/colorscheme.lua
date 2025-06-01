@@ -16,7 +16,7 @@ return {
 			integrations = {
 				cmp = true,
 				leap = true,
-				notify = false,
+				notify = true,
 				illuminate = true,
 				neotree = true,
 				neogit = true,

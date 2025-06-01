@@ -6,7 +6,8 @@ vim.g.loaded_node_provider = 0
 
 local opt = vim.opt
 
-opt.completeopt = "menuone,noinsert,noselect"
+-- opt.completeopt = "menu,menuone,noinsert,noselect,preview"
+opt.completeopt = "menu,menuone,noselect,noinsert"
 opt.relativenumber = true -- Relative line numbers
 opt.shiftwidth = 4 -- Size of an indent
 opt.spelllang = { "en", "ru" }

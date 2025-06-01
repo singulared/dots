@@ -4,6 +4,7 @@ return {
 	},
 	{
 		"NeogitOrg/neogit",
+		branch = "master",
 		version = false,
 		dependencies = {
 			"sindrets/diffview.nvim",
