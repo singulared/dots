@@ -1,5 +1,6 @@
 return {
-	"toppair/peek.nvim",
+	-- "toppair/peek.nvim",
+	"singulared/peek.nvim",
 	version = false,
 	event = { "VeryLazy" },
 	build = "deno task --quiet build:fast",
