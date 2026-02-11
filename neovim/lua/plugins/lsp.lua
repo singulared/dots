@@ -6,6 +6,14 @@ return {
 				enabled = false,
 			},
 			servers = {
+				cucumber_language_server = {
+					settings = {
+						cucumber = {
+							features = { "**/tests/features/*.feature" },
+							glue = { "**/src/**/*.rs", "**/tests/*.rs" },
+						},
+					},
+				},
 				yamlls = {
 					settings = {
 						yaml = {
@@ -81,10 +89,10 @@ return {
 		"onsails/lspkind.nvim",
 		version = false,
 	},
-	{ "mason-org/mason-lspconfig.nvim", version = "^1.0.0" },
+	-- { "mason-org/mason-lspconfig.nvim", version = "^1.0.0" },
 	{
 		"mason-org/mason.nvim",
-		version = "^1.0.0",
+		-- version = "^1.0.0",
 		opts = function(_, opts)
 			opts.PATH = "append"
 			if type(opts.ensure_installed) == "table" then

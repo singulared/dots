@@ -1,6 +1,7 @@
 return {
 	{
 		"catppuccin/nvim",
+		priority = 1000,
 		lazy = true,
 		name = "catppuccin",
 		version = false,
@@ -20,6 +21,7 @@ return {
 				illuminate = true,
 				neotree = true,
 				neogit = true,
+				bufferline = true,
 			},
 		},
 	},

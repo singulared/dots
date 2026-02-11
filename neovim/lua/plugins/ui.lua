@@ -10,13 +10,41 @@ return {
 		},
 	},
 	{
+		"akinsho/bufferline.nvim",
+		after = "catppuccin",
+		init = function()
+			local bufline = require("catppuccin.special.bufferline")
+			function bufline.get()
+				return bufline.get_theme()
+			end
+		end,
+	},
+	{
 		"ibhagwan/fzf-lua",
 		version = false,
 		-- optional for icon support
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
 			-- calling `setup` is optional for customization
-			require("fzf-lua").setup({ "skim" })
+			-- require("fzf-lua").setup({ "skim" })
+			require("fzf-lua").setup({
+				-- fzf_bin = "sk",
+				winopts = {
+					height = 0.7,
+					width = 0.55,
+					preview = {
+						scrollbar = false,
+						layout = "vertical",
+						vertical = "up:70%",
+					},
+				},
+				lsp = {
+					code_actions = {
+						previewer = "codeaction_native",
+						preview_pager = "delta --side-by-side --width=$FZF_PREVIEW_COLUMNS",
+					},
+				},
+			})
 		end,
 	},
 	{
@@ -91,7 +119,7 @@ return {
 							section = "terminal",
 							icon = " ",
 							cmd = 'echo -e "Hitbox\t\t\t\t\t\t\t\t $(gh api repos/hit-box/hitbox | jq -r \'" \\(.stargazers_count)  \\(.open_issues_count)"\')"',
-							title = "Github stats",
+							title = "Open Source",
 							height = 5,
 							padding = 1,
 							ttl = 5 * 60,
