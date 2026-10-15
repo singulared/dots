@@ -1,71 +1,39 @@
 # dots
-Userspace configuration
+
+Personal configuration. Currently Neovim only.
 
 ## Neovim
-![Neovim Example](screens/neovim.png)
-### Build neovim from source
-```bash
-git clone https://github.com/neovim/neovim.git
-sudo apt install ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip
-sudo apt install python-pip python3.7 python3-pip
-make distclean
-CMAKE_BUILD_TYPE=RelWithDebInfo make deps && CMAKE_BUILD_TYPE=RelWithDebInfo make
-sudo make install
-```
-### Install vim-plug
-```bash
-curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-```
-### Copy configuration
-```bash
-cp nvimrc ~/.config/nvim/init.vim
+
+A Rust-focused [LazyVim](https://www.lazyvim.org/) setup. Needs Neovim 0.11.2 or newer (LazyVim's minimum).
+
+### Install
+
+```sh
+git clone git@github.com:singulared/dots.git ~/sources/dots
+ln -s ~/sources/dots/neovim ~/.config/nvim
+nvim # lazy.nvim bootstraps itself and installs the plugins
 ```
 
-### Install neovim plugins dependencies
-#### Install rust
-```bash
-curl https://sh.rustup.rs -sSf | sh
-rustup component add rls rust-analysis rust-src
-```
-#### Install xclip
-```bash
-sudo apt install xclip, xsel
-```
+### Updating plugins
 
+Plugin versions are pinned in `neovim/lazy-lock.json`. After `:Lazy update`, commit the lockfile on its own.
+If an update breaks something, `git checkout neovim/lazy-lock.json` and run `:Lazy restore`.
 
-## Zsh
-![Zsh Example](screens/zsh.png)
+### External dependencies
 
-### Install zsh, git
-```bash
-apt install zsh, git
-```
+LSP servers, formatters, linters, cspell and codelldb are installed by Mason. Mason's bin directory is appended to
+`PATH`, so system binaries take precedence (rust-analyzer comes from rustup/cargo).
 
-### Install zplug
-```bash
-curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
-```
+| Tool                                                                    | Used for                                             |
+| ----------------------------------------------------------------------- | ---------------------------------------------------- |
+| `rust-analyzer`                                                         | rustaceanvim                                         |
+| `deno`                                                                  | building peek.nvim (markdown preview, `<leader>mp`)  |
+| `chafa`                                                                 | dashboard image                                      |
+| `gh` with [gh-notify](https://github.com/meiji163/gh-notify), `jq`, `curl` | dashboard GitHub sections, `scripts/oss-stats.sh` |
+| `delta`                                                                 | fzf-lua code action preview                          |
+| `sway`                                                                  | optional: places the peek preview window             |
 
-### Install zplug\zsh config
-```bash
-cp zshrc ~/.zshrc
-chsh --shell /bin/zsh
-```
+### Local plugin development
 
-### Install fonts
-```bash
-# clone
-git clone https://github.com/powerline/fonts.git --depth=1
-# install
-cd fonts
-./install.sh
-# clean-up a bit
-cd ..
-rm -rf fonts
-
-# install Nerd fonts
-mkdir -p ~/.local/share/fonts
-cd ~/.local/share/fonts && curl -fLo "DejaVu Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DejaVuSansMono/complete/DejaVu%20Sans%20Mono%20Nerd%20Font%20Complete.otf
-fc-cache -f -v
-```
+Plugins matching `singulared/*` are loaded from `~/sources/nvim/<name>` when that checkout exists, otherwise they are
+cloned from GitHub.
