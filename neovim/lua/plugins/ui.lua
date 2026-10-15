@@ -49,7 +49,9 @@ return {
 						pane = 1,
 						{
 							section = "terminal",
-							cmd = "chafa ~/Downloads/rustacean-orig-noshadow.png --format symbols --symbols vhalf --size 75 --stretch; sleep .1",
+							cmd = "chafa "
+								.. vim.fn.shellescape(vim.fn.stdpath("config") .. "/assets/rustacean.png")
+								.. " --format symbols --symbols vhalf --size 75 --stretch; sleep .1",
 							height = 27,
 							width = 75,
 							padding = 1,
@@ -87,7 +89,7 @@ return {
 						{
 							section = "terminal",
 							icon = " ",
-							cmd = 'echo -e "Hitbox\t\t\t\t\t\t\t\t $(gh api repos/hit-box/hitbox | jq -r \'" \\(.stargazers_count)  \\(.open_issues_count)"\')"',
+							cmd = "bash " .. vim.fn.shellescape(vim.fn.stdpath("config") .. "/scripts/oss-stats.sh"),
 							title = "Open Source",
 							height = 5,
 							padding = 1,
