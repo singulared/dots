@@ -13,7 +13,9 @@ require("lazy").setup({
 			"LazyVim/LazyVim",
 			import = "lazyvim.plugins",
 			opts = {
-				colorscheme = "catppuccin",
+				-- not "catppuccin": Neovim's runtime ships a colors/catppuccin.vim (Latte/Mocha only) that
+				-- shadows the plugin unless the plugin happens to be loaded before :colorscheme runs
+				colorscheme = "catppuccin-nvim",
 			},
 		},
 		{ import = "lazyvim.plugins.extras.lang.rust" },
@@ -29,7 +31,7 @@ require("lazy").setup({
 		lazy = false,
 		version = false, -- always use the latest git commit
 	},
-	install = { colorscheme = { "catppuccin" } },
+	install = { colorscheme = { "catppuccin-nvim" } },
 	checker = { enabled = true }, -- automatically check for plugin updates
 	performance = {
 		rtp = {
