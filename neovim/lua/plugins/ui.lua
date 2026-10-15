@@ -10,20 +10,8 @@ return {
 		},
 	},
 	{
-		"akinsho/bufferline.nvim",
-		after = "catppuccin",
-		init = function()
-			local bufline = require("catppuccin.special.bufferline")
-			function bufline.get()
-				return bufline.get_theme()
-			end
-		end,
-	},
-	{
 		"ibhagwan/fzf-lua",
 		version = false,
-		-- optional for icon support
-		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
 			-- calling `setup` is optional for customization
 			-- require("fzf-lua").setup({ "skim" })
@@ -118,7 +106,7 @@ return {
 						{
 							section = "terminal",
 							icon = " ",
-							cmd = 'echo -e "Hitbox\t\t\t\t\t\t\t\t $(gh api repos/hit-box/hitbox | jq -r \'" \\(.stargazers_count)  \\(.open_issues_count)"\')"',
+							cmd = 'echo -e "Hitbox\t\t\t\t\t\t\t\t $(gh api repos/hit-box/hitbox | jq -r \'" \\(.stargazers_count)  \\(.open_issues_count)"\')"',
 							title = "Open Source",
 							height = 5,
 							padding = 1,

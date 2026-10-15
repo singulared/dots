@@ -1,8 +1,6 @@
 return {
 	{
 		"catppuccin/nvim",
-		priority = 1000,
-		lazy = true,
 		name = "catppuccin",
 		version = false,
 		opts = {
@@ -13,15 +11,6 @@ return {
 					mantle = "#24262d",
 					crust = "#202023",
 				},
-			},
-			integrations = {
-				cmp = true,
-				leap = true,
-				notify = true,
-				illuminate = true,
-				neotree = true,
-				neogit = true,
-				bufferline = true,
 			},
 		},
 	},
