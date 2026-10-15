@@ -12,50 +12,31 @@ return {
 	{
 		"ibhagwan/fzf-lua",
 		version = false,
-		config = function()
-			-- calling `setup` is optional for customization
-			-- require("fzf-lua").setup({ "skim" })
-			require("fzf-lua").setup({
-				-- fzf_bin = "sk",
-				winopts = {
-					height = 0.7,
-					width = 0.55,
-					preview = {
-						scrollbar = false,
-						layout = "vertical",
-						vertical = "up:70%",
-					},
+		opts = {
+			winopts = {
+				height = 0.7,
+				width = 0.55,
+				preview = {
+					scrollbar = false,
+					layout = "vertical",
+					vertical = "up:70%",
 				},
-				lsp = {
-					code_actions = {
-						previewer = "codeaction_native",
-						preview_pager = "delta --side-by-side --width=$FZF_PREVIEW_COLUMNS",
-					},
+			},
+			lsp = {
+				code_actions = {
+					preview_pager = "delta --side-by-side --width=$FZF_PREVIEW_COLUMNS",
 				},
-			})
-		end,
+			},
+		},
 	},
 	{
 		"folke/noice.nvim",
 		version = false,
-		config = function()
-			require("noice").setup({
-				lsp = {
-					override = {
-						["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-						["vim.lsp.util.stylize_markdown"] = true,
-						["cmp.entry.get_documentation"] = true,
-					},
-				},
-				presets = {
-					bottom_search = true,
-					command_palette = true,
-					long_message_to_split = true,
-					inc_rename = false,
-					lsp_doc_border = true,
-				},
-			})
-		end,
+		opts = {
+			presets = {
+				lsp_doc_border = true,
+			},
+		},
 	},
 	{
 		"folke/snacks.nvim",

@@ -22,7 +22,7 @@ require("lazy").setup({
 	dev = {
 		path = "~/sources/nvim/",
 		patterns = { "singulared" },
-		fallback = false,
+		fallback = true, -- clone from GitHub when there is no local checkout
 	},
 	defaults = {
 		-- only LazyVim plugins are lazy-loaded by default

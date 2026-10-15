@@ -1,2 +1,2 @@
-[default.extend-ignore-worlds-re]
-"noice" = "noice"
+[default.extend-words]
+noice = "noice"
